@@ -60,6 +60,12 @@ class ContentView extends React.Component {
             </button>
         });
 
+        let currentPagenumber = 1;
+        if (this.props.info && this.props.info.next) {
+            currentPagenumber = +this.props.info.next.slice(this.props.info.next.lastIndexOf('=') + 1) - 1;
+        } else if (this.props.info && this.props.info.prev) {
+            currentPagenumber = +this.props.info.prev.slice(this.props.info.prev.lastIndexOf('=') + 1) + 1;
+        }
 
         const cards = this.props.list.length ? this.state.holder.map((element, index) => <CardComponent key={index} list={element} />) : [<div className="col-md-12"><p className="text-center">Nothing to show</p></div>];
         return <div className="col-md-10">
@@ -98,6 +104,7 @@ class ContentView extends React.Component {
                     <li className={`page-item ${this.props.info.prev ? "" : "disabled"}`}>
                         <span className="page-link" onClick={() => this.props.getData(this.props.info.prev)}>Previous</span>
                     </li>
+                    <li className="page-item disabled"><span className="page-link">{currentPagenumber}</span></li>
                     <li className={`page-item ${this.props.info.next ? "" : "disabled"}`}>
                         <span className="page-link" onClick={() => this.props.getData(this.props.info.next)}>Next</span>
                     </li>
